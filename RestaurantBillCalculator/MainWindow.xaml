@@ -1,0 +1,87 @@
+﻿<Window x:Class="RestaurantBillCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RestaurantBillCalculator.ViewModel"
+        mc:Ignorable="d"
+        Title="Bill calculator" Height="450" Width="800">
+    
+
+    <Grid Height="434" VerticalAlignment="Bottom">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="39*"/>
+            <ColumnDefinition Width="41*"/>
+        </Grid.ColumnDefinitions>
+
+
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="14"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto" MinHeight="50.04"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Add the Comboboxes -->
+        <StackPanel   Orientation="Vertical" Margin="15,0,255,0" Height="163" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+
+            <TextBlock Text="Select Beverage" Grid.Row="0" FontWeight="Bold"/>
+
+            <ComboBox x:Name="cbBeverage" Grid.Row="1" Width="120" 
+                      SelectedValuePath="Price" SelectionChanged="comboBox_SelectionChanged"  
+                      ItemsSource="{Binding Beverages}" SelectedItem="{Binding SelectedBeverages, Mode=TwoWay}" DisplayMemberPath="Name" SelectedIndex="0"/>
+            <TextBlock Text="Select appetizer" Grid.Row="0" FontWeight="Bold"/>
+            <ComboBox x:Name="cbAppetizer" Width="120" ItemsSource="{Binding Appetizers}" SelectedValuePath="Price"
+                      SelectedItem="{Binding SelectedAppetizers, Mode=TwoWay}" DisplayMemberPath="Name" SelectionChanged="comboBox_SelectionChanged" SelectedIndex="0"/>
+            <TextBlock Text="Select Mains" Grid.Row="0" FontWeight="Bold"/>
+            <ComboBox x:Name="cbMaincourses" Width="120"  SelectedValuePath="Price" ItemsSource="{Binding MainCourses}"
+                      SelectionChanged="comboBox_SelectionChanged" SelectedItem="{Binding SelectedMainCourse, Mode=TwoWay}" DisplayMemberPath="Name" SelectedIndex="0"
+                       />
+            <TextBlock Text="Select Dessert" Grid.Row="0" FontWeight="Bold"/>
+            <ComboBox x:Name="cbDesserts" Width="120" SelectionChanged="comboBox_SelectionChanged" SelectedValuePath="Price" ItemsSource="{Binding Desserts}"
+                      SelectedItem="{Binding SelectedDessert, Mode=TwoWay}" DisplayMemberPath="Name" SelectedIndex="0"/>
+
+
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10,10,10,10" Grid.ColumnSpan="2">
+            <Button x:Name="btnAddToBill" Content="Add to Bill" Margin="5" Command="{Binding AddItemToBillCommand}" 
+        CommandParameter="{Binding SelectedItem, ElementName=cbBeverage}"/>
+            <Button x:Name="btnClearBill" Content="Clear Bill" Margin="5"/>
+
+        </StackPanel>
+        <DataGrid ItemsSource="{Binding BillItems}" x:Name="dgBill" AutoGenerateColumns="False" CanUserAddRows="False" Margin="185,25,0,0" RenderTransformOrigin="0.5,0.5" Grid.Row="1" HorizontalAlignment="Left" Width="215" Height="95" VerticalAlignment="Top" Grid.ColumnSpan="2" SelectionChanged="dgBill_SelectionChanged">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Item" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <!-- Add the Buttons -->
+        <StackPanel Grid.Row="3"  Orientation="Vertical" Margin="10,10,10,10" Grid.ColumnSpan="2">
+            <TextBlock x:Name="txtSubtotal" Text="Subtotal: $0.00"/>
+            <TextBlock x:Name="txtTax" Text="Tax: $0.00"/>
+            <TextBlock x:Name="txtTotal" Text="Total: $0.00"/>
+        </StackPanel>
+
+        <!-- Add the StatusBar -->
+        <StatusBar Grid.Row="3" Grid.ColumnSpan="2" Margin="0,68,0,0" Grid.RowSpan="2">
+            <StatusBarItem>
+                <TextBlock x:Name="txtRestaurantName" Text="Your Restaurant Name" />
+            </StatusBarItem>
+
+        </StatusBar>
+
+
+
+
+
+
+
+
+
+    </Grid>
+</Window>
